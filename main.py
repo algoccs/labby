@@ -39,8 +39,22 @@ class Player(GameSprite):
             self.rect.x -= self.speed
 
 class Enemy(GameSprite):
+    def __init__(self, img_file, cor_x, cor_y, speed):
+        super().__init__(img_file, cor_x, cor_y, speed)
+        self.move_right = True # Estado inicial (flag)
+        self.original_img = self.image
+
     def update(self):
-        self.rect.x += self.speed
+        if self.move_right:
+            self.rect.x += self.speed
+            if self.rect.x >= ANCHO - 60:
+                self.move_right = False
+        else:
+            self.rect.x -= self.speed
+            if self.rect.x <= 0:
+                self.move_right = True
+
+            
 
 # PANTALLA (superficie principal)
 screen = display.set_mode((ANCHO, ALTO))
@@ -49,7 +63,7 @@ clock = time.Clock()
 
 # OBJETOS
 player = Player(PLAYER_IMG, 20, 350, 5)
-enemy = Enemy(ENEMY_IMG, 20, 20, 1)
+enemy = Enemy(ENEMY_IMG, 20, 20, 5)
 goal = GameSprite(GOAL_IMG, 20, 350, 2)
 
 # GAME LOOP
