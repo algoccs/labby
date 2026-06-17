@@ -38,6 +38,10 @@ class Player(GameSprite):
         if keys[K_a] and self.rect.x >= 0:
             self.rect.x -= self.speed
 
+class Enemy(GameSprite):
+    def update(self):
+        self.rect.x += self.speed
+
 # PANTALLA (superficie principal)
 screen = display.set_mode((ANCHO, ALTO))
 display.set_caption(TITULO)
@@ -45,9 +49,8 @@ clock = time.Clock()
 
 # OBJETOS
 player = Player(PLAYER_IMG, 20, 350, 5)
-enemy = GameSprite(ENEMY_IMG, 20, 350, 2)
+enemy = Enemy(ENEMY_IMG, 20, 20, 1)
 goal = GameSprite(GOAL_IMG, 20, 350, 2)
-
 
 # GAME LOOP
 run = True # variable de estado
@@ -59,6 +62,9 @@ while run:
     screen.fill(BACK_COLOR)
     player.reset() # Metodo para renderizar la imagen
     player.update() # METODO DE MOVIMIENTO
+
+    enemy.reset()
+    enemy.update()
 
     display.update()
     clock.tick(FPS) # Establecer fotogramas por segundos
